@@ -1,0 +1,8 @@
+########################################
+#           Retro Proxy Installer      #
+#                                      #
+#  Using Wayback Proxy                 #
+#                                      #
+#  Credits:                            #
+#          richardg867                 #
+########################################
