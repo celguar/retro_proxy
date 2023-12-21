@@ -105,7 +105,7 @@ cd "%mainfolder%\retro_python"
 "%mainfolder%\retro_python\python.exe" "%mainfolder%\retro_downloads\get-pip.py"
 cd "%mainfolder%"
 :pip_requirements
-if exist "%mainfolder%\retro_python\Lib\site-packages\lru" goto backup_main_py
+if exist "%mainfolder%\retro_python\Lib\site-packages\urllib3" goto backup_main_py
 cls
 more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
