@@ -171,8 +171,36 @@ more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
 echo    Retro Proxy Setup Complete!
 ping -n 3 127.0.0.1>nul
+if not exist "%mainfolder%\retro_tools\proxy_date.txt" (
+set current_proxy_date=20011025
+>"%mainfolder%\retro_tools\proxy_date.txt" echo %current_proxy_date%
 echo.
-echo    Date set to 2001/10/25
-ping -n 5 127.0.0.1>nul
-rem start "" "notepad.exe" "%mainfolder%\README.md"
+echo    Date set to %current_proxy_date%
+ping -n 4 127.0.0.1>nul
+exit
+)
+
+set /p current_proxy_date=<"%mainfolder%\retro_tools\proxy_date.txt"
+:config_apply_address
+echo.
+echo    Applying old date to config...
+ping -n 2 127.0.0.1>nul
+rem "%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_proxy\etc\config\config.yml" "host: 0.0.0.0" "host: 127.0.0.1"
+setlocal enableextensions disabledelayedexpansion
+
+    set "search=20011025"
+    set "replace=%current_proxy_date%"
+
+    set "textFile=%mainfolder%\retro_proxy\config.json"
+
+    for /f "delims=" %%i in ('type "%textFile%" ^& break ^> "%textFile%" ') do (
+        set "line=%%i"
+        setlocal enabledelayedexpansion
+        >>"%textFile%" echo(!line:%search%=%replace%!
+        endlocal
+    )
+endlocal
+echo.
+echo    Date set to %current_proxy_date%
+ping -n 4 127.0.0.1>nul
 exit
