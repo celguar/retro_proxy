@@ -14,8 +14,7 @@ if exist "%mainfolder%\retro_downloads\retro_proxy_master.zip" del "%mainfolder%
 echo.
 echo    Downloading Retro Proxy...
 ping -n 2 127.0.0.1>nul
-rem "%mainfolder%\retro_tools\wget.exe" -q --show-progress "https://github.com/The-Alpha-Project/alpha-core/archive/refs/heads/master.zip" -O "%mainfolder%\retro_proxy_master.zip"
-curl -L -o "%mainfolder%\retro_downloads\retro_proxy_master.zip" "https://github.com/richardg867/WaybackProxy/archive/refs/heads/master.zip"
+"%mainfolder%\retro_tools\wget.exe" -q --show-progress "https://github.com/richardg867/WaybackProxy/archive/refs/heads/master.zip" -O "%mainfolder%\retro_downloads\retro_proxy_master.zip"
 :core_extract
 if exist "%mainfolder%\retro_downloads\retro_proxy_master.zip" (
 if exist "%mainfolder%\retro_proxy" rmdir /Q /S "%mainfolder%\retro_proxy"
@@ -26,8 +25,7 @@ more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
 echo    Extracting Retro Proxy...
 ping -n 2 127.0.0.1>nul
-rem "%mainfolder%\retro_tools\7za.exe" -y -spf e "%mainfolder%\retro_proxy_master.zip" > nul
-tar -xf "%mainfolder%\retro_downloads\retro_proxy_master.zip"
+"%mainfolder%\retro_tools\7za.exe" -y -spf e "%mainfolder%\retro_downloads\retro_proxy_master.zip" > nul
 rename "%mainfolder%\WaybackProxy-master" "retro_proxy"
 rem CHECK INSTALL
 if not exist "%mainfolder%\retro_proxy" (
@@ -48,8 +46,7 @@ more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
 echo    Downloading Python 3.9...
 ping -n 2 127.0.0.1>nul
-rem "%mainfolder%\retro_tools\wget.exe" -q --show-progress "https://www.python.org/ftp/python/3.9.9/python-3.9.9-embed-amd64.zip" -O "%mainfolder%\python_3.9.9_win64.zip"
-curl -L -o "%mainfolder%\retro_downloads\python_3.9.9_win64.zip" "https://www.python.org/ftp/python/3.9.9/python-3.9.9-embed-amd64.zip"
+"%mainfolder%\retro_tools\wget.exe" -q --show-progress "https://www.python.org/ftp/python/3.9.9/python-3.9.9-embed-amd64.zip" -O "%mainfolder%\retro_downloads\python_3.9.9_win64.zip"
 :python_extract
 if exist "%mainfolder%\retro_python" goto python_install
 cls
@@ -58,8 +55,7 @@ echo.
 echo    Extracting Python...
 ping -n 2 127.0.0.1>nul
 if not exist "%mainfolder%\retro_python" mkdir "%mainfolder%\retro_python"
-rem "%mainfolder%\retro_tools\7za.exe" -y -spf e -o"%mainfolder%\retro_python" "%mainfolder%\python_3.9.9_win64.zip" > nul
-tar -xf "%mainfolder%\retro_downloads\python_3.9.9_win64.zip" -C "%mainfolder%\retro_python"
+"%mainfolder%\retro_tools\7za.exe" -y -spf e -o"%mainfolder%\retro_python" "%mainfolder%\retro_downloads\python_3.9.9_win64.zip">nul
 if not exist "%mainfolder%\retro_python\python.exe" (
 echo    Failed to install Python!
 ping -n 2 127.0.0.1>nul
@@ -73,14 +69,28 @@ exit
 )
 
 :python_install
-if exist "%mainfolder%\retro_downloads\get-pip.py" goto pip_install
+if exist "%mainfolder%\retro_python\api-ms-win-core-path-l1-1-0.dll" goto pip_download
+
+:compatibility_dll
 cls
 more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
-echo    Preparing Python...
+echo    Downloading Windows 7
+echo    compatibility module for Python...
 ping -n 2 127.0.0.1>nul
+"%mainfolder%\retro_tools\wget.exe" -q --show-progress "https://github.com/nalexandru/api-ms-win-core-path-HACK/releases/download/0.3.1/api-ms-win-core-path-blender-0.3.1.zip" -O "%mainfolder%\retro_downloads\api-ms-win-core-path-blender-0.3.1.zip"
+echo.
+echo    Extracting...
+ping -n 2 127.0.0.1>nul
+cd "%mainfolder%\retro_downloads"
+"%mainfolder%\retro_tools\7za.exe" -y -spf e "%mainfolder%\retro_downloads\api-ms-win-core-path-blender-0.3.1.zip">nul
+xcopy /y "%mainfolder%\retro_downloads\api-ms-win-core-path-blender\x64\api-ms-win-core-path-l1-1-0.dll" "%mainfolder%\retro_python">nul
+rem del "%mainfolder%\retro_downloads\api-ms-win-core-path-blender-0.3.1.zip"
+rmdir /Q /S "%mainfolder%\retro_downloads\api-ms-win-core-path-blender"
+cd "%mainfolder%"
+
 :pip_download
-rem if exist "%mainfolder%\retro_python\get-pip.py" goto pip_install
+if exist "%mainfolder%\retro_downloads\get-pip.py" goto pip_install
 cls
 more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
@@ -88,8 +98,7 @@ echo    Preparing Python...
 echo.
 echo    Downloading Pip...
 ping -n 2 127.0.0.1>nul
-rem "%mainfolder%\retro_tools\wget.exe" -q --show-progress "https://bootstrap.pypa.io/get-pip.py" -O "%mainfolder%\retro_python\get-pip.py"
-curl -L -o "%mainfolder%\retro_downloads\get-pip.py" "https://bootstrap.pypa.io/get-pip.py"
+"%mainfolder%\retro_tools\wget.exe" -q --show-progress "https://bootstrap.pypa.io/get-pip.py" -O "%mainfolder%\retro_downloads\get-pip.py"
 :pip_install
 if exist "%mainfolder%\retro_python\Scripts\pip3.exe" goto pip_requirements
 cls
@@ -117,21 +126,7 @@ echo    Installing Pip...
 echo.
 echo    Enabling Pip...
 ping -n 2 127.0.0.1>nul
-rem "%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_python\python39._pth" "#import site" "import site"
-setlocal enableextensions disabledelayedexpansion
-
-    set "search=#import site"
-    set "replace=import site"
-
-    set "textFile=%mainfolder%\retro_python\python39._pth"
-
-    for /f "delims=" %%i in ('type "%textFile%" ^& break ^> "%textFile%" ') do (
-        set "line=%%i"
-        setlocal enabledelayedexpansion
-        >>"%textFile%" echo(!line:%search%=%replace%!
-        endlocal
-    )
-endlocal
+"%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_python\python39._pth" "#import site" "import site">nul
 cls
 more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
@@ -171,8 +166,8 @@ more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
 echo    Retro Proxy Setup Complete!
 ping -n 3 127.0.0.1>nul
-if not exist "%mainfolder%\retro_tools\proxy_date.txt" (
 set current_proxy_date=20011025
+if not exist "%mainfolder%\retro_tools\proxy_date.txt" (
 >"%mainfolder%\retro_tools\proxy_date.txt" echo %current_proxy_date%
 echo.
 echo    Date set to %current_proxy_date%
@@ -185,21 +180,7 @@ set /p current_proxy_date=<"%mainfolder%\retro_tools\proxy_date.txt"
 echo.
 echo    Applying old date to config...
 ping -n 2 127.0.0.1>nul
-rem "%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_proxy\etc\config\config.yml" "host: 0.0.0.0" "host: 127.0.0.1"
-setlocal enableextensions disabledelayedexpansion
-
-    set "search=20011025"
-    set "replace=%current_proxy_date%"
-
-    set "textFile=%mainfolder%\retro_proxy\config.json"
-
-    for /f "delims=" %%i in ('type "%textFile%" ^& break ^> "%textFile%" ') do (
-        set "line=%%i"
-        setlocal enabledelayedexpansion
-        >>"%textFile%" echo(!line:%search%=%replace%!
-        endlocal
-    )
-endlocal
+"%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_proxy\config.json" "20011025" "%current_proxy_date%">nul
 echo.
 echo    Date set to %current_proxy_date%
 ping -n 4 127.0.0.1>nul

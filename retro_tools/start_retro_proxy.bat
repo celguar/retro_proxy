@@ -8,5 +8,5 @@ echo    Retro Proxy Server
 echo.
 echo    Starting...
 echo.
-"..\retro_python\python.exe" "%mainfolder%\retro_proxy\waybackproxy.py"\
+"..\retro_python\python.exe" "%mainfolder%\retro_proxy\waybackproxy.py"
 exit

@@ -42,22 +42,8 @@ more < "%mainfolder%\retro_tools\header_start.txt"
 echo.
 echo    Fixing Python Path...
 ping -n 2 127.0.0.1>nul
-set properpath=%mainfolder%
-set "properpath=%properpath:\=/%"
-setlocal enableextensions disabledelayedexpansion
-
-    set "search=import base64, datetime"
-    set "replace=import base64, sys;sys.path.insert^(0, '%properpath%/retro_proxy/'^);import datetime"
-
-    set "textFile=%mainfolder%\retro_proxy\waybackproxy.py"
-
-    for /f "delims=" %%i in ('type "%textFile%" ^& break ^> "%textFile%" ') do (
-        set "line=%%i"
-        setlocal enabledelayedexpansion
-        >>"%textFile%" echo(!line:%search%=%replace%!
-        endlocal
-    )
-endlocal
+"%mainfolder%\retro_tools\fart.exe" -C "%mainfolder%\retro_proxy\waybackproxy.py" "import base64, datetime" "import base64, sys;sys.path.insert(0, 'path_placeholder');import datetime">nul
+"%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_proxy\waybackproxy.py" "path_placeholder" "%properpath%/retro_proxy/">nul
 
 :start_core
 cd "%mainfolder%\retro_proxy"

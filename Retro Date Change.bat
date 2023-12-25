@@ -52,21 +52,7 @@ ping -n 5 127.0.0.1>nul
 echo.
 echo    Applying date to config...
 ping -n 2 127.0.0.1>nul
-rem "%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_proxy\etc\config\config.yml" "host: 0.0.0.0" "host: 127.0.0.1"
-setlocal enableextensions disabledelayedexpansion
-
-    set "search=%current_proxy_date%"
-    set "replace=%new_proxy_date%"
-
-    set "textFile=%mainfolder%\retro_proxy\config.json"
-
-    for /f "delims=" %%i in ('type "%textFile%" ^& break ^> "%textFile%" ') do (
-        set "line=%%i"
-        setlocal enabledelayedexpansion
-        >>"%textFile%" echo(!line:%search%=%replace%!
-        endlocal
-    )
-endlocal
+"%mainfolder%\retro_tools\fart.exe" "%mainfolder%\retro_proxy\config.json" "%current_proxy_date%" "%new_proxy_date%">nul
 >"%mainfolder%\retro_tools\proxy_date.txt" echo %new_proxy_date%
 
 :end_install
