@@ -171,8 +171,8 @@ more < "%mainfolder%\retro_tools\header_install.txt"
 echo.
 echo    Retro Proxy Setup Complete!
 ping -n 3 127.0.0.1>nul
-if not exist "%mainfolder%\retro_tools\proxy_date.txt" (
 set current_proxy_date=20011025
+if not exist "%mainfolder%\retro_tools\proxy_date.txt" (
 >"%mainfolder%\retro_tools\proxy_date.txt" echo %current_proxy_date%
 echo.
 echo    Date set to %current_proxy_date%
